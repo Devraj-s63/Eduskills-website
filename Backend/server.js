@@ -10,7 +10,7 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({ origin: "https://your-frontend.netlify.app" }));
 app.use(express.json());
 app.use("/uploads", express.static("uploads")); // serve resume files
 

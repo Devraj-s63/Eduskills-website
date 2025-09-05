@@ -3,74 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Contact Messages</title>
+  <title>Admin Dashboard - EduSkills</title>
+  <link rel="stylesheet" href="style.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
-    h1 {
-      text-align: center;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: left;
-    }
-    th {
-      background: #f4f4f4;
-    }
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    h2 { margin-top: 40px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
   </style>
 </head>
 <body>
-  <h1>📩 Contact Form Submissions</h1>
-  <table id="contactsTable">
+  <h1>Admin Dashboard</h1>
+
+  <h2>Contact Messages</h2>
+  <table id="contactTable">
     <thead>
       <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Message</th>
-        <th>Submitted At</th>
+        <th>Name</th><th>Email</th><th>Phone</th><th>Message</th><th>Submitted At</th>
       </tr>
     </thead>
     <tbody></tbody>
   </table>
 
-  <script>
-    async function loadContacts() {
-      try {
-        const res = await fetch("http://localhost:5000/api/contact");
-        const contacts = await res.json();
+  <h2>Applications</h2>
+  <table id="applicationTable">
+    <thead>
+      <tr>
+        <th>Name</th><th>Email</th><th>Phone</th><th>Course</th><th>Education</th><th>Resume</th><th>Submitted At</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 
-        const tbody = document.querySelector("#contactsTable tbody");
-        tbody.innerHTML = "";
-
-        contacts.forEach(c => {
-          const row = `
-            <tr>
-              <td>${c.id}</td>
-              <td>${c.name}</td>
-              <td>${c.email}</td>
-              <td>${c.phone}</td>
-              <td>${c.message}</td>
-              <td>${new Date(c.created_at).toLocaleString()}</td>
-            </tr>
-          `;
-          tbody.innerHTML += row;
-        });
-      } catch (err) {
-        console.error("Error loading contacts", err);
-      }
-    }
-
-    loadContacts();
-  </script>
+  <script src="admin.js"></script>
 </body>
 </html>
