@@ -64,3 +64,24 @@ app.get("/api/test-applications", async (req, res) => {
     res.status(500).json({ msg: "Error fetching data" });
   }
 });
+// Test endpoint for Contact Messages
+app.get("/api/test-contacts", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM contact_messages ORDER BY created_at DESC");
+    res.json(result.rows); // PostgreSQL returns .rows
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Error fetching data", error: err.message });
+  }
+});
+
+// Test endpoint for Applications
+app.get("/api/test-applications", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM applications ORDER BY created_at DESC");
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Error fetching data", error: err.message });
+  }
+});
