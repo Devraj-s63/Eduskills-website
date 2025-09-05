@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduSkills Institute</title>
+  <link rel="stylesheet" href="styles/main.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo">AI</div>
+        <div>
+          <div class="brand-title">EduSkills Institute</div>
+          <div class="tagline">"Learn. Apply. Excel."</div>
+        </div>
+      </div>
+      <nav class="menu">
+        <a href="#/" data-nav>Home</a>
+        <a href="#/courses" data-nav>Courses</a>
+        <a href="#/about" data-nav>About Us</a>
+        <a href="#/contact" data-nav>Contact</a>
+        <a href="#/apply" class="btn" data-nav>Apply Now</a>
+      </nav>
+      <button class="hamburger" id="hamburger">☰</button>
+    </div>
+  </header>
+
+  <!-- Pages -->
+  <main id="page-home"></main>
+  <main id="page-courses" class="hidden"></main>
+  <main id="page-about" class="hidden"></main>
+  <main id="page-contact" class="hidden"></main>
+  <main id="page-apply" class="hidden"></main>
+
+  <!-- Modal -->
+  <div id="courseModal" class="modal hidden">
+    <div class="modal-content">
+      <span id="modalClose" class="modal-close">&times;</span>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer">
+      <div>
+        <h4>Contact Us</h4>
+        <p>Email: info@acme.com</p>
+        <p>Phone: +91 12345 67890</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <a href="#/">Home</a><br />
+        <a href="#/courses">Courses</a><br />
+        <a href="#/about">About Us</a><br />
+        <a href="#/contact">Contact</a>
+      </div>
+      <div>
+        <h4>Follow Us</h4>
+        <p>Facebook | Instagram | LinkedIn</p>
+      </div>
+    </div>
+    <div class="copy">© <span id="year"></span> EduSkills Institute</div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
