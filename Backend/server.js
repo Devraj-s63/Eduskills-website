@@ -39,3 +39,28 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, "0.0.0.0", () =>
   console.log(`🚀 Server running on port ${PORT}`)
 );
+// Admin Test Endpoint for Contact Messages
+app.get("/api/test-contacts", async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      "SELECT * FROM contact_messages ORDER BY created_at DESC"
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Error fetching data" });
+  }
+});
+
+// Admin Test Endpoint for Applications
+app.get("/api/test-applications", async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      "SELECT * FROM applications ORDER BY created_at DESC"
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Error fetching data" });
+  }
+});

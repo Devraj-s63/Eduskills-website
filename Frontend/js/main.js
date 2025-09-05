@@ -176,11 +176,12 @@ function renderContact() {
     const formData = Object.fromEntries(new FormData(e.target).entries());
 
     try {
-      const res = await fetch("http://localhost:5000/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch("https://eduskills-website-1.onrender.com/api/contact", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(formData),
+});
+
 
       const data = await res.json();
       alert(data.msg || "Message sent!");
@@ -214,10 +215,11 @@ function renderApply() {
     const formData = new FormData(e.target);
 
     try {
-      const res = await fetch("http://localhost:5000/api/apply", {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch("https://eduskills-website-1.onrender.com/api/apply", {
+  method: "POST",
+  body: formData,
+});
+
 
       const data = await res.json();
       alert(data.msg || "Application submitted!");
