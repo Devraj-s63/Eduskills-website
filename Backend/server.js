@@ -14,14 +14,14 @@ app.use(cors());
 app.use(express.json());
 app.use("/uploads", express.static("uploads")); // serve resume files
 
-// Test MySQL Connection
+// Test Postgres Connection
 (async () => {
   try {
-    const conn = await pool.getConnection();
-    console.log("✅ MySQL Connected");
-    conn.release();
+    const client = await pool.connect();
+    console.log("✅ Postgres Connected");
+    client.release(); // release back to pool
   } catch (err) {
-    console.error("❌ MySQL Connection Failed", err);
+    console.error("❌ Postgres Connection Failed", err);
   }
 })();
 
@@ -36,5 +36,6 @@ app.get("/", (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, "0.0.0.0", () => console.log(`🚀 Server running on port ${PORT}`));
-
+app.listen(PORT, "0.0.0.0", () =>
+  console.log(`🚀 Server running on port ${PORT}`)
+);
