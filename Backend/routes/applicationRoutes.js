@@ -1,26 +1,41 @@
 import express from "express";
 import multer from "multer";
 import path from "path";
+import fs from "fs";
 import Application from "../models/Application.js";
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
 
-
+dotenv.config();
 const router = express.Router();
 
-// Resume upload setup
+// Ensure uploads folder exists
+const uploadsDir = path.join(path.resolve(), "uploads");
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+// Multer setup for resume upload
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "uploads/"),
+  destination: (req, file, cb) => cb(null, uploadsDir),
   filename: (req, file, cb) =>
     cb(null, Date.now() + path.extname(file.originalname)),
 });
 
 const upload = multer({ storage });
 
-// Save application
+// POST /applications - save application + send email to user
 router.post("/", upload.single("resume"), async (req, res) => {
-  const { name, email, phone, course, education } = req.body;
-  const resume = req.file ? req.file.filename : null;
-
   try {
+    const { name, email, phone, course, education } = req.body;
+
+    if (!name || !email) {
+      return res.status(400).json({ error: "Name and Email are required" });
+    }
+
+    const resume = req.file ? req.file.filename : null;
+
+    // Save to database
     const application = new Application({
       name,
       email,
@@ -30,21 +45,33 @@ router.post("/", upload.single("resume"), async (req, res) => {
       resume,
     });
     await application.save();
-    res.status(201).json(application);
-  } catch (err) {
-    console.error("❌ Error saving application:", err);
-    res.status(500).json({ error: "Database error" });
-  }
-});
 
-// Get all applications
-router.get("/", async (req, res) => {
-  try {
-    const apps = await Application.find().sort({ createdAt: -1 });
-    res.json(apps);
+    // Send confirmation email to user
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    let resumeInfo = resume
+      ? `\nYou uploaded your resume: ${req.protocol}://${req.get("host")}/uploads/${resume}`
+      : "";
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email, // sending to the user's email
+      subject: `Your Application for ${course} was Received`,
+      text: `Hi ${name},\n\nThank you for applying for ${course}.\nWe have received your application successfully.${resumeInfo}\n\nBest regards,\nYour Team`,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.status(201).json({ success: true, application });
   } catch (err) {
-    console.error("❌ Error fetching applications:", err);
-    res.status(500).json({ error: "Failed to fetch applications" });
+    console.error("❌ Error saving application or sending email:", err);
+    res.status(500).json({ error: "Internal Server Error", message: err.message });
   }
 });
 
