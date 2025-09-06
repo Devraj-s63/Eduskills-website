@@ -28,23 +28,22 @@ router.post("/", upload.single("resume"), async (req, res) => {
       education,
       resume,
     });
-
     await application.save();
-    res.json({ success: true, id: application._id });
+    res.status(201).json(application);
   } catch (err) {
-    console.error("Error saving application:", err);
-    res.status(500).json({ success: false, error: "Database error" });
+    console.error("❌ Error saving application:", err);
+    res.status(500).json({ error: "Database error" });
   }
 });
 
 // Get all applications
 router.get("/", async (req, res) => {
   try {
-    const applications = await Application.find();
-    res.json(applications);
+    const apps = await Application.find().sort({ createdAt: -1 });
+    res.json(apps);
   } catch (err) {
-    console.error("Error fetching applications:", err);
-    res.status(500).json({ success: false, error: "Database error" });
+    console.error("❌ Error fetching applications:", err);
+    res.status(500).json({ error: "Failed to fetch applications" });
   }
 });
 

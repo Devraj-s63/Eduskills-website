@@ -1,4 +1,3 @@
-// Backend/models/Application.js
 import mongoose from "mongoose";
 
 const applicationSchema = new mongoose.Schema({
@@ -7,8 +6,8 @@ const applicationSchema = new mongoose.Schema({
   phone: String,
   course: String,
   education: String,
-  resume: String, // store file path or filename
-  createdAt: { type: Date, default: Date.now }
+  resume: String, // store filename or file URL
+  createdAt: { type: Date, default: Date.now },
 });
 
 export default mongoose.model("Application", applicationSchema);

@@ -1,5 +1,5 @@
 import express from "express";
-import Contact from "../models/contact.js";
+import Contact from "../models/Contact.js";
 
 const router = express.Router();
 
@@ -10,6 +10,7 @@ router.post("/", async (req, res) => {
     await contact.save();
     res.status(201).json(contact);
   } catch (err) {
+    console.error("❌ Error saving contact:", err);
     res.status(500).json({ error: "Failed to save contact" });
   }
 });
@@ -17,9 +18,10 @@ router.post("/", async (req, res) => {
 // Get all contacts
 router.get("/", async (req, res) => {
   try {
-    const contacts = await Contact.find();
+    const contacts = await Contact.find().sort({ createdAt: -1 });
     res.json(contacts);
   } catch (err) {
+    console.error("❌ Error fetching contacts:", err);
     res.status(500).json({ error: "Failed to fetch contacts" });
   }
 });
