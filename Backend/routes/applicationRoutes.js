@@ -3,6 +3,7 @@ import multer from "multer";
 import path from "path";
 import Application from "../models/Application.js";
 
+
 const router = express.Router();
 
 // Resume upload setup
