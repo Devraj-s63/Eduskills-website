@@ -1,59 +1,51 @@
-const express = require("express");
-const multer = require("multer");
-const nodemailer = require("nodemailer");
-const Application = require("../models/Application");
+import express from "express";
+import multer from "multer";
+import path from "path";
+import Application from "../models/Application.js";
 
 const router = express.Router();
 
-// File upload config
+// Resume upload setup
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, "uploads/"),
-  filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname),
+  filename: (req, file, cb) =>
+    cb(null, Date.now() + path.extname(file.originalname)),
 });
+
 const upload = multer({ storage });
 
+// Save application
 router.post("/", upload.single("resume"), async (req, res) => {
   const { name, email, phone, course, education } = req.body;
+  const resume = req.file ? req.file.filename : null;
 
   try {
-    const newApp = new Application({
+    const application = new Application({
       name,
       email,
       phone,
       course,
       education,
-      resume: req.file ? req.file.filename : null,
-    });
-    await newApp.save();
-
-    // Send mail to admin
-    let transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.ADMIN_EMAIL,
-        pass: process.env.ADMIN_PASS,
-      },
+      resume,
     });
 
-    await transporter.sendMail({
-      from: email,
-      to: process.env.ADMIN_EMAIL,
-      subject: "New Application Received",
-      text: `
-        Name: ${name}
-        Email: ${email}
-        Phone: ${phone}
-        Course: ${course}
-        Education: ${education}
-      `,
-      attachments: req.file ? [{ path: req.file.path }] : [],
-    });
-
-    res.json({ msg: "Application submitted successfully!" });
+    await application.save();
+    res.json({ success: true, id: application._id });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: "Application failed" });
+    console.error("Error saving application:", err);
+    res.status(500).json({ success: false, error: "Database error" });
   }
 });
 
-module.exports = router;
+// Get all applications
+router.get("/", async (req, res) => {
+  try {
+    const applications = await Application.find();
+    res.json(applications);
+  } catch (err) {
+    console.error("Error fetching applications:", err);
+    res.status(500).json({ success: false, error: "Database error" });
+  }
+});
+
+export default router;

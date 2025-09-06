@@ -1,13 +1,14 @@
-const mongoose = require("mongoose");
+// Backend/models/Application.js
+import mongoose from "mongoose";
 
 const applicationSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
-  phone: { type: String, required: true },
-  course: { type: String, required: true },
-  education: { type: String, required: true },
-  resume: { type: String }, // store filename
-  date: { type: Date, default: Date.now },
+  phone: String,
+  course: String,
+  education: String,
+  resume: String, // store file path or filename
+  createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model("Application", applicationSchema);
+export default mongoose.model("Application", applicationSchema);

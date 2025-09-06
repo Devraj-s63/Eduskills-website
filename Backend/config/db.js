@@ -1,13 +1,20 @@
-import pkg from "pg";
-const { Pool } = pkg;
+// Backend/config/db.js
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-const pool = new Pool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  ssl: { rejectUnauthorized: false },
-});
+dotenv.config();
 
-export default pool;
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("✅ MongoDB Connected");
+  } catch (err) {
+    console.error("❌ MongoDB Connection Failed", err);
+    process.exit(1);
+  }
+};
+
+export default connectDB;

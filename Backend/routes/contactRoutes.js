@@ -1,36 +1,27 @@
-const express = require("express");
-const nodemailer = require("nodemailer");
+import express from "express";
+import Contact from "../models/contact.js";
+
 const router = express.Router();
 
+// Add new contact
 router.post("/", async (req, res) => {
-  const { name, email, phone, message } = req.body;
-
-  if (!name || !email || !phone || !message) {
-    return res.status(400).json({ msg: "All fields required" });
-  }
-
   try {
-    // Configure mailer
-    let transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.ADMIN_EMAIL,
-        pass: process.env.ADMIN_PASS,
-      },
-    });
-
-    await transporter.sendMail({
-      from: email,
-      to: process.env.ADMIN_EMAIL,
-      subject: "New Contact Message",
-      text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\nMessage:\n${message}`,
-    });
-
-    res.json({ msg: "Message sent successfully!" });
+    const contact = new Contact(req.body);
+    await contact.save();
+    res.status(201).json(contact);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: "Email sending failed" });
+    res.status(500).json({ error: "Failed to save contact" });
   }
 });
 
-module.exports = router;
+// Get all contacts
+router.get("/", async (req, res) => {
+  try {
+    const contacts = await Contact.find();
+    res.json(contacts);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch contacts" });
+  }
+});
+
+export default router;
