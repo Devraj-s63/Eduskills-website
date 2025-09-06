@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 
 import contactRoutes from "./routes/contactRoutes.js";
-import courseRoutes from "./routes/courseRoutes.js";
+import courseRoutes from "./routes/coursesRoutes.js";
 import applicationRoutes from "./routes/applicationRoutes.js";
 
 dotenv.config();
