@@ -40,31 +40,46 @@ router.post("/", upload.single("resume"), async (req, res) => {
 
     await newApplication.save();
 
-    // ✅ Setup Nodemailer only if creds are present
+    // ✅ Setup Nodemailer if creds exist
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-      console.warn("⚠️ Email credentials not set. Skipping notification email.");
-    } else if (!process.env.ADMIN_EMAIL) {
-      console.warn("⚠️ ADMIN_EMAIL is not set. Skipping notification email.");
+      console.warn("⚠️ Email credentials not set. Skipping emails.");
     } else {
-      try {
-        const transporter = nodemailer.createTransport({
-          service: "gmail",
-          auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS,
-          },
-        });
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      });
 
-        await transporter.sendMail({
-          from: process.env.EMAIL_USER,
-          to: process.env.ADMIN_EMAIL,
-          subject: "New Application Submitted",
-          text: `${name} applied for ${course}. Email: ${email}`,
-        });
+      // 1️⃣ Send email to Admin (if ADMIN_EMAIL exists)
+      if (process.env.ADMIN_EMAIL) {
+        try {
+          await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: process.env.ADMIN_EMAIL,
+            subject: "📥 New Application Submitted",
+            text: `${name} applied for ${course}. Email: ${email}`,
+          });
+          console.log("📧 Notification sent to admin:", process.env.ADMIN_EMAIL);
+        } catch (mailErr) {
+          console.error("❌ Failed to send admin email:", mailErr.message);
+        }
+      }
 
-        console.log("📧 Notification email sent to:", process.env.ADMIN_EMAIL);
-      } catch (mailErr) {
-        console.error("❌ Failed to send notification email:", mailErr.message);
+      // 2️⃣ Send confirmation email to Applicant
+      if (email) {
+        try {
+          await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: "✅ Application Received",
+            text: `Hello ${name},\n\nThank you for applying to ${course}. We have received your application and will get back to you soon.\n\nBest regards,\nInstitute Team`,
+          });
+          console.log("📧 Confirmation email sent to applicant:", email);
+        } catch (mailErr) {
+          console.error("❌ Failed to send applicant email:", mailErr.message);
+        }
       }
     }
 
@@ -75,7 +90,7 @@ router.post("/", upload.single("resume"), async (req, res) => {
   }
 });
 
-// 📌 (Optional) GET /api/apply - fetch all applications
+// 📌 GET /api/apply - fetch all applications
 router.get("/", async (req, res) => {
   try {
     const applications = await Application.find();
