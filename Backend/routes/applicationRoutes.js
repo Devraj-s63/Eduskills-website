@@ -52,7 +52,17 @@ router.post("/", upload.single("resume"), async (req, res) => {
         },
       });
 
-      // 1️⃣ Send email to Admin (if ADMIN_EMAIL exists)
+      // Prepare resume attachment if uploaded
+      const attachments = req.file
+        ? [
+            {
+              filename: req.file.originalname,
+              path: path.join(uploadsDir, req.file.filename),
+            },
+          ]
+        : [];
+
+      // 1️⃣ Send email to Admin
       if (process.env.ADMIN_EMAIL) {
         try {
           await transporter.sendMail({
@@ -60,6 +70,7 @@ router.post("/", upload.single("resume"), async (req, res) => {
             to: process.env.ADMIN_EMAIL,
             subject: "📥 New Application Submitted",
             text: `${name} applied for ${course}. Email: ${email}`,
+            attachments, // attach resume
           });
           console.log("📧 Notification sent to admin:", process.env.ADMIN_EMAIL);
         } catch (mailErr) {
@@ -74,7 +85,8 @@ router.post("/", upload.single("resume"), async (req, res) => {
             from: process.env.EMAIL_USER,
             to: email,
             subject: "✅ Application Received",
-            text: `Hello ${name},\n\nThank you for applying to ${course}. We have received your application and will get back to you soon.\n\nBest regards,\nInstitute Team`,
+            text: `Hello ${name},\n\nThank you for applying to ${course}. Please find a copy of your submitted resume attached.\n\nBest regards,\nInstitute Team`,
+            attachments, // attach resume
           });
           console.log("📧 Confirmation email sent to applicant:", email);
         } catch (mailErr) {
@@ -100,5 +112,21 @@ router.get("/", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+// PATCH /api/apply/:id/view
+router.patch("/:id/view", async (req, res) => {
+  try {
+    const app = await Application.findById(req.params.id);
+    if (!app) return res.status(404).json({ message: "Application not found" });
+
+    app.viewed = true;
+    await app.save();
+
+    res.json({ message: "Application marked as viewed" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 
 export default router;

@@ -194,11 +194,42 @@
       color: #64748b;
       font-size: 14px;
     }
-    
-    @media (max-width: 768px) {
-      .container {
-        padding: 20px 16px;
-      }
+    /* Status badge styles */
+.status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  min-width: 60px;
+}
+
+/* New applications */
+.status-new {
+  background: linear-gradient(135deg, #FF6B6B, #FFD93D); /* red → yellow gradient */
+  box-shadow: 0 2px 6px rgba(255, 107, 107, 0.4);
+}
+
+/* Viewed applications */
+.status-old {
+  background: #6c757d; /* gray */
+  box-shadow: 0 2px 6px rgba(108, 117, 125, 0.4);
+}
+
+/* Hover effects */
+.status-badge:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 20px 16px;
+  }
       
       .header h1 {
         font-size: 28px;

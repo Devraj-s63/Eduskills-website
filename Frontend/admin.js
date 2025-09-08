@@ -45,94 +45,20 @@ function countTodayMessages(data) {
   }).length;
 }
 
-// Fetch and display contact messages
-async function loadContacts() {
-  try {
-    contactTableBody.innerHTML = '<tr><td colspan="6" class="loading">Loading contact messages...</td></tr>';
-    
-    const res = await fetch(`${BASE_URL}/api/test-contacts`);
-    
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
-    }
-    
-    const contacts = await res.json();
-    
-    if (!Array.isArray(contacts)) {
-      throw new Error('Invalid data format received');
-    }
-    
-    // Update stats
-    totalContactsEl.textContent = contacts.length;
-    todayMessagesEl.textContent = countTodayMessages(contacts);
-    
-    if (contacts.length === 0) {
-      contactTableBody.innerHTML = `
-        <tr>
-          <td colspan="6" class="empty-state">
-            <div class="empty-state-icon">📧</div>
-            <div>No contact messages found</div>
-            <small>Messages will appear here when users contact you</small>
-          </td>
-        </tr>
-      `;
-      return;
-    }
-    
-    contactTableBody.innerHTML = contacts
-      .sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0))
-      .map((c, index) => `
-        <tr style="animation: fadeIn 0.5s ease ${index * 0.1}s both;">
-          <td style="font-weight: 600;">${c.name || '-'}</td>
-          <td>
-            <a href="mailto:${c.email || ''}" style="color: #FF6B6B; text-decoration: none;">
-              ${c.email || '-'}
-            </a>
-          </td>
-          <td>
-            <a href="tel:${c.phone || ''}" style="color: #4a5568; text-decoration: none;">
-              ${c.phone || '-'}
-            </a>
-          </td>
-          <td title="${c.message || ''}">${truncateText(c.message)}</td>
-          <td style="font-size: 13px; color: #64748b;">${formatDate(c.created_at)}</td>
-          <td>${getStatusBadge()}</td>
-        </tr>
-      `)
-      .join("");
-  } catch (err) {
-    console.error('Error loading contacts:', err);
-    contactTableBody.innerHTML = `
-      <tr>
-        <td colspan="6" class="error">
-          <div>❌ Error loading contact messages</div>
-          <small>${err.message}</small>
-        </td>
-      </tr>
-    `;
-  }
-}
-
 // Fetch and display applications
 async function loadApplications() {
   try {
     applicationTableBody.innerHTML = '<tr><td colspan="8" class="loading">Loading applications...</td></tr>';
-    
+
     const res = await fetch(`${BASE_URL}/api/test-applications`);
-    
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
-    }
-    
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+
     const applications = await res.json();
-    
-    if (!Array.isArray(applications)) {
-      throw new Error('Invalid data format received');
-    }
-    
+    if (!Array.isArray(applications)) throw new Error('Invalid data format received');
+
     // Update stats
     totalApplicationsEl.textContent = applications.length;
-    
+
     if (applications.length === 0) {
       applicationTableBody.innerHTML = `
         <tr>
@@ -145,39 +71,53 @@ async function loadApplications() {
       `;
       return;
     }
-    
+
     applicationTableBody.innerHTML = applications
       .sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0))
-      .map((a, index) => `
-        <tr style="animation: fadeIn 0.5s ease ${index * 0.1}s both;">
-          <td style="font-weight: 600;">${a.name || '-'}</td>
-          <td>
-            <a href="mailto:${a.email || ''}" style="color: #FF6B6B; text-decoration: none;">
-              ${a.email || '-'}
-            </a>
-          </td>
-          <td>
-            <a href="tel:${a.phone || ''}" style="color: #4a5568; text-decoration: none;">
-              ${a.phone || '-'}
-            </a>
-          </td>
-          <td>
-            <span style="background: linear-gradient(135deg, #FFE66D, #FF6B6B); padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; color: #1a1a1a;">
-              ${a.course || '-'}
-            </span>
-          </td>
-          <td title="${a.education || ''}">${truncateText(a.education, 80)}</td>
-          <td>
-            ${a.resume ? 
-              `<a href="#" style="color: #4ecdc4; text-decoration: none; font-weight: 600;">📎 View Resume</a>` : 
-              '<span style="color: #a0a0a0;">No file</span>'
-            }
-          </td>
-          <td style="font-size: 13px; color: #64748b;">${formatDate(a.created_at)}</td>
-          <td>${getStatusBadge()}</td>
-        </tr>
-      `)
+      .map((a, index) => {
+        // Status badge click handler
+        const statusBadgeId = `status-${index}`;
+        return `
+          <tr style="animation: fadeIn 0.5s ease ${index * 0.1}s both;">
+            <td style="font-weight: 600;">${a.name || '-'}</td>
+            <td><a href="mailto:${a.email || ''}" style="color: #FF6B6B; text-decoration: none;">${a.email || '-'}</a></td>
+            <td><a href="tel:${a.phone || ''}" style="color: #4a5568; text-decoration: none;">${a.phone || '-'}</a></td>
+            <td><span style="background: linear-gradient(135deg, #FFE66D, #FF6B6B); padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; color: #1a1a1a;">${a.course || '-'}</span></td>
+            <td title="${a.education || ''}">${truncateText(a.education, 80)}</td>
+            <td>
+              ${a.resume ? 
+                `<a href="${BASE_URL}/uploads/${a.resume}" target="_blank" style="color: #4ecdc4; text-decoration: none; font-weight: 600;">📎 View Resume</a>` : 
+                '<span style="color: #a0a0a0;">No file</span>'
+              }
+            </td>
+            <td style="font-size: 13px; color: #64748b;">${formatDate(a.created_at)}</td>
+            <td>
+              <span id="${statusBadgeId}" class="status-badge ${a.viewed ? 'status-old' : 'status-new'}" style="cursor: pointer;">
+                ${a.viewed ? 'Viewed' : 'New'}
+              </span>
+            </td>
+          </tr>
+        `;
+      })
       .join("");
+
+    // Add click handlers for status badges to mark as viewed
+    applications.forEach((app, index) => {
+      const badge = document.getElementById(`status-${index}`);
+      if (badge && !app.viewed) {
+        badge.addEventListener('click', async () => {
+          try {
+            await fetch(`${BASE_URL}/api/apply/${app._id}/view`, { method: 'PATCH' });
+            badge.textContent = 'Viewed';
+            badge.classList.remove('status-new');
+            badge.classList.add('status-old');
+          } catch (err) {
+            console.error('Failed to update status:', err);
+          }
+        });
+      }
+    });
+
   } catch (err) {
     console.error('Error loading applications:', err);
     applicationTableBody.innerHTML = `
