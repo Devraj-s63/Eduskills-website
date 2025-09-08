@@ -3,38 +3,309 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard - EduSkills</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Admin Dashboard - EduSkills institue</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    h2 { margin-top: 40px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    th { background-color: #f2f2f2; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body { 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      background: #f8fafc;
+      color: #1a1a1a;
+      line-height: 1.6;
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #FFE66D, #FF6B6B);
+      color: #1a1a1a;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+    
+    .header h1 {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    
+    .header p {
+      font-size: 18px;
+      opacity: 0.8;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+    
+    .stat-card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 36px;
+      font-weight: 800;
+      color: #FF6B6B;
+      margin-bottom: 8px;
+    }
+    
+    .stat-label {
+      font-size: 16px;
+      color: #64748b;
+      font-weight: 600;
+    }
+    
+    .section {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+    
+    .section-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 25px 30px;
+    }
+    
+    .section-header h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    
+    .section-header p {
+      opacity: 0.9;
+      font-size: 16px;
+    }
+    
+    .table-container {
+      overflow-x: auto;
+    }
+    
+    table { 
+      width: 100%; 
+      border-collapse: collapse;
+    }
+    
+    th, td { 
+      padding: 16px 20px; 
+      text-align: left; 
+      border-bottom: 1px solid #e2e8f0;
+    }
+    
+    th { 
+      background-color: #f8fafc;
+      font-weight: 700;
+      color: #1a1a1a;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    td {
+      font-size: 14px;
+      color: #4a5568;
+    }
+    
+    tr:hover {
+      background-color: #f8fafc;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 60px 30px;
+      color: #64748b;
+    }
+    
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #64748b;
+    }
+    
+    .error {
+      text-align: center;
+      padding: 40px;
+      color: #e53e3e;
+      background: #fed7d7;
+      margin: 20px;
+      border-radius: 12px;
+    }
+    
+    .refresh-btn {
+      background: linear-gradient(135deg, #FFE66D, #FF6B6B);
+      color: #1a1a1a;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      margin: 20px auto;
+      display: block;
+    }
+    
+    .refresh-btn:hover {
+      transform: translateY(-2px);
+    }
+    
+    .status-badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .status-new {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    
+    .footer {
+      text-align: center;
+      padding: 30px;
+      color: #64748b;
+      font-size: 14px;
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px 16px;
+      }
+      
+      .header h1 {
+        font-size: 28px;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .section-header {
+        padding: 20px;
+      }
+      
+      th, td {
+        padding: 12px 16px;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>Admin Dashboard</h1>
+  <div class="header">
+    <h1>EduSkills institue Admin Dashboard</h1>
+    <p>Manage applications and contact messages</p>
+  </div>
 
-  <h2>Contact Messages</h2>
-  <table id="contactTable">
-    <thead>
-      <tr>
-        <th>Name</th><th>Email</th><th>Phone</th><th>Message</th><th>Submitted At</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+  <div class="container">
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number" id="totalContacts">0</div>
+        <div class="stat-label">Total Messages</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="totalApplications">0</div>
+        <div class="stat-label">Total Applications</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="todayMessages">0</div>
+        <div class="stat-label">Today's Messages</div>
+      </div>
+    </div>
 
-  <h2>Applications</h2>
-  <table id="applicationTable">
-    <thead>
-      <tr>
-        <th>Name</th><th>Email</th><th>Phone</th><th>Course</th><th>Education</th><th>Resume</th><th>Submitted At</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+    <!-- Contact Messages Section -->
+    <div class="section">
+      <div class="section-header">
+        <h2>Contact Messages</h2>
+        <p>Recent inquiries and messages from potential students</p>
+      </div>
+      <div class="table-container">
+        <table id="contactTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Message</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="6" class="loading">Loading contact messages...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Applications Section -->
+    <div class="section">
+      <div class="section-header" style="background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);">
+        <h2>Course Applications</h2>
+        <p>Student applications for various courses</p>
+      </div>
+      <div class="table-container">
+        <table id="applicationTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Course</th>
+              <th>Education</th>
+              <th>Resume</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="8" class="loading">Loading applications...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <button class="refresh-btn" onclick="refreshData()">
+      Refresh Data
+    </button>
+  </div>
+
+  <div class="footer">
+    <p>&copy; 2024 EduSkills institue Admin Dashboard. All rights reserved.</p>
+  </div>
 
   <script src="admin.js"></script>
 </body>

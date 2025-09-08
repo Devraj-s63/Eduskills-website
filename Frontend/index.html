@@ -1,72 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EduSkills Institute</title>
-  <link rel="stylesheet" href="styles/main.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduSkills institue - Online Learning Platform</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="container nav">
-      <div class="brand">
-        <div class="logo">AI</div>
-        <div>
-          <div class="brand-title">EduSkills Institute</div>
-          <div class="tagline">"Learn. Apply. Excel."</div>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <div class="logo-icon">E</div>
+                    <span class="logo-text">EduSkills institue</span>
+                </div>
+                <ul class="nav-links menu">
+                    <li><a href="#/" data-nav class="active">Home</a></li>
+                    <li><a href="#/courses" data-nav>Courses</a></li>
+                    <li><a href="#/about" data-nav>About Us</a></li>
+                    <li><a href="#/contact" data-nav>Contact</a></li>
+                </ul>
+                <a href="#/apply" class="cta-button btn" data-nav>Apply Now</a>
+                <button class="hamburger" id="hamburger">☰</button>
+            </nav>
         </div>
-      </div>
-      <nav class="menu">
-        <a href="#/" data-nav>Home</a>
-        <a href="#/courses" data-nav>Courses</a>
-        <a href="#/about" data-nav>About Us</a>
-        <a href="#/contact" data-nav>Contact</a>
-        <a href="#/apply" class="btn" data-nav>Apply Now</a>
-      </nav>
-      <button class="hamburger" id="hamburger">☰</button>
+    </header>
+
+    <!-- Pages -->
+    <main id="page-home"></main>
+    <main id="page-courses" class="hidden"></main>
+    <main id="page-about" class="hidden"></main>
+    <main id="page-contact" class="hidden"></main>
+    <main id="page-apply" class="hidden"></main>
+
+    <!-- Modal -->
+    <div id="courseModal" class="modal hidden">
+        <div class="modal-content">
+            <span id="modalClose" class="modal-close">&times;</span>
+            <div id="modalBody"></div>
+        </div>
     </div>
-  </header>
 
-  <!-- Pages -->
-  <main id="page-home"></main>
-  <main id="page-courses" class="hidden"></main>
-  <main id="page-about" class="hidden"></main>
-  <main id="page-contact" class="hidden"></main>
-  <main id="page-apply" class="hidden"></main>
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <div class="logo-icon">E</div>
+                        <span class="logo-text" style="color: white;">EduSkills institue</span>
+                    </div>
+                    <p style="margin-top: 16px; color: #a0a0a0; line-height: 1.6;">
+                        Empowering learners worldwide with cutting-edge education and practical skills for the digital age.
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <a href="#/">Home</a>
+                    <a href="#/courses">Courses</a>
+                    <a href="#/about">About Us</a>
+                    <a href="#/contact">Contact</a>
+                    <a href="#/careers">Careers</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Our Policies</h4>
+                    <a href="#/privacy">Privacy Policy</a>
+                    <a href="#/terms">Terms of Service</a>
+                    <a href="#/refund">Refund Policy</a>
+                    <a href="#/support">Support</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Sign Up for Our Newsletter</h4>
+                    <p style="color: #a0a0a0; margin-bottom: 16px;">Get the latest updates on new courses and special offers.</p>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="email" placeholder="Enter your email" style="flex: 1; padding: 12px; border: 1px solid #333; border-radius: 8px; background: #2d3748; color: white;">
+                        <button style="background: linear-gradient(135deg, #FFE66D, #FF6B6B); border: none; padding: 12px 16px; border-radius: 8px; color: #1a1a1a; font-weight: 600; cursor: pointer;">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="year"></span> EduSkills institue. All rights reserved. | Made with ❤️ for learners worldwide</p>
+                <div style="margin-top: 12px; display: flex; justify-content: center; gap: 20px;">
+                    <a href="#" style="color: #FFE66D;">Facebook</a>
+                    <a href="#" style="color: #FFE66D;">Twitter</a>
+                    <a href="#" style="color: #FFE66D;">LinkedIn</a>
+                    <a href="#" style="color: #FFE66D;">Instagram</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-  <!-- Modal -->
-  <div id="courseModal" class="modal hidden">
-    <div class="modal-content">
-      <span id="modalClose" class="modal-close">&times;</span>
-      <div id="modalBody"></div>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container footer">
-      <div>
-        <h4>Contact Us</h4>
-        <p>Email: info@acme.com</p>
-        <p>Phone: +91 12345 67890</p>
-      </div>
-      <div>
-        <h4>Quick Links</h4>
-        <a href="#/">Home</a><br />
-        <a href="#/courses">Courses</a><br />
-        <a href="#/about">About Us</a><br />
-        <a href="#/contact">Contact</a>
-      </div>
-      <div>
-        <h4>Follow Us</h4>
-        <p>Facebook | Instagram | LinkedIn</p>
-      </div>
-    </div>
-    <div class="copy">© <span id="year"></span> EduSkills Institute</div>
-  </footer>
-
-  <script src="js/main.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
