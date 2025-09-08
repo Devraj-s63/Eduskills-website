@@ -7,6 +7,10 @@ const applicationSchema = new mongoose.Schema({
   course: String,
   education: String,
   resume: String, // store filename or file URL
+  viewed: {        // new field to track if admin has seen the application
+    type: Boolean,
+    default: false
+  },
   createdAt: { type: Date, default: Date.now },
 });
 
