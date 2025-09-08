@@ -112,7 +112,7 @@ main {
 
 /* Hero Section */
 .hero {
-    padding: 80px 0;
+    padding: 10px 0;
     background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
 }
 
@@ -227,7 +227,7 @@ main {
 .section-header {
     text-align: left;
     margin-bottom: 60px;
-    padding: 60px 0 0;
+    padding: 20px 0 0;
 }
 
 .section-title {
@@ -244,7 +244,7 @@ main {
 
 /* Courses */
 .courses-section {
-    padding: 100px 20px;
+    padding: 2px 20px;
 }
 
 .course-list {
@@ -331,7 +331,7 @@ main {
 
 /* Other Sections */
 .content-section {
-    padding: 80px 20px;
+    padding: 20px 20px;
 }
 
 .content-section h2 {

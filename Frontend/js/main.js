@@ -255,7 +255,7 @@ function renderHome() {
     </section>
 
     <!-- Testimonials Section -->
-    <section style="padding: 80px 20px; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);">
+    <section style="padding: 10px 20px; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);">
       <div class="container">
         <div class="section-header">
           <h2 class="section-title">What Our Learners Say</h2>
