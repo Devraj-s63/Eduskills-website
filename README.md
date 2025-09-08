@@ -7,7 +7,7 @@ Deployed on **Netlify (frontend)** and **Render (backend + DB)**.
 
 ## 🚀 Live Demo
 
-- **Frontend (Netlify):** [https://dynamic-peony-d14543.netlify.app/](https://dynamic-peony-d14543.netlify.app/)  
+- **Frontend (Netlify):** [https://sunny-kleicha-e0b6f3.netlify.app//](https://sunny-kleicha-e0b6f3.netlify.app//)  
 - **Backend API (Render):** [https://eduskills-website-1.onrender.com](https://eduskills-website-1.onrender.com)  
 
 ---
