@@ -3,7 +3,6 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-
 import contactRoutes from "./routes/contactRoutes.js";
 import courseRoutes from "./routes/coursesRoutes.js";   
 import applicationRoutes from "./routes/applicationRoutes.js";

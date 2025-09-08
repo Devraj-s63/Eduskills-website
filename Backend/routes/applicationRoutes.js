@@ -30,7 +30,7 @@ router.post("/", upload.single("resume"), async (req, res) => {
   try {
     const { name, email, course } = req.body;
 
-    // Save to DB
+    // Save application to DB
     const newApplication = new Application({
       name,
       email,
@@ -40,35 +40,48 @@ router.post("/", upload.single("resume"), async (req, res) => {
 
     await newApplication.save();
 
-    // Example email notification (optional)
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
+    // ✅ Setup Nodemailer only if creds are present
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+      console.warn("⚠️ Email credentials not set. Skipping notification email.");
+    } else if (!process.env.ADMIN_EMAIL) {
+      console.warn("⚠️ ADMIN_EMAIL is not set. Skipping notification email.");
+    } else {
+      try {
+        const transporter = nodemailer.createTransport({
+          service: "gmail",
+          auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS,
+          },
+        });
 
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: process.env.ADMIN_EMAIL,
-      subject: "New Application Submitted",
-      text: `${name} applied for ${course}. Email: ${email}`,
-    });
+        await transporter.sendMail({
+          from: process.env.EMAIL_USER,
+          to: process.env.ADMIN_EMAIL,
+          subject: "New Application Submitted",
+          text: `${name} applied for ${course}. Email: ${email}`,
+        });
+
+        console.log("📧 Notification email sent to:", process.env.ADMIN_EMAIL);
+      } catch (mailErr) {
+        console.error("❌ Failed to send notification email:", mailErr.message);
+      }
+    }
 
     res.status(201).json({ message: "Application submitted successfully" });
   } catch (err) {
-    console.error(err);
+    console.error("❌ Application submission error:", err);
     res.status(500).json({ message: "Server error" });
   }
 });
 
-// 📌 (Optional) GET /api/apply
+// 📌 (Optional) GET /api/apply - fetch all applications
 router.get("/", async (req, res) => {
   try {
     const applications = await Application.find();
     res.json(applications);
   } catch (err) {
+    console.error("❌ Error fetching applications:", err);
     res.status(500).json({ message: "Server error" });
   }
 });
