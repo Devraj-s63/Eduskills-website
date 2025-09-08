@@ -1,7 +1,7 @@
 const contactTableBody = document.querySelector("#contactTable tbody");
 const applicationTableBody = document.querySelector("#applicationTable tbody");
 
-// Updated backend URL - keep your existing URL
+// Backend URL
 const BASE_URL = "https://eduskills-website-1.onrender.com";
 
 // Stats elements
@@ -9,7 +9,7 @@ const totalContactsEl = document.getElementById('totalContacts');
 const totalApplicationsEl = document.getElementById('totalApplications');
 const todayMessagesEl = document.getElementById('todayMessages');
 
-// Utility function to format date
+// Utility: format date
 function formatDate(dateString) {
   if (!dateString) return '-';
   const date = new Date(dateString);
@@ -22,14 +22,14 @@ function formatDate(dateString) {
   });
 }
 
-// Utility function to get status badge
+// Utility: status badge
 function getStatusBadge(isNew = true) {
   return `<span class="status-badge ${isNew ? 'status-new' : 'status-old'}">
     ${isNew ? 'New' : 'Viewed'}
   </span>`;
 }
 
-// Utility function to truncate text
+// Utility: truncate text
 function truncateText(text, maxLength = 100) {
   if (!text) return '-';
   return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
@@ -39,10 +39,59 @@ function truncateText(text, maxLength = 100) {
 function countTodayMessages(data) {
   const today = new Date().toDateString();
   return data.filter(item => {
-    if (!item.created_at) return false;
-    const itemDate = new Date(item.created_at).toDateString();
+    if (!item.createdAt) return false;
+    const itemDate = new Date(item.createdAt).toDateString();
     return itemDate === today;
   }).length;
+}
+
+// Fetch and display contacts
+async function loadContacts() {
+  try {
+    contactTableBody.innerHTML = '<tr><td colspan="5" class="loading">Loading contacts...</td></tr>';
+
+    const res = await fetch(`${BASE_URL}/api/contacts`);
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+
+    const contacts = await res.json();
+    totalContactsEl.textContent = contacts.length;
+    todayMessagesEl.textContent = countTodayMessages(contacts);
+
+    if (contacts.length === 0) {
+      contactTableBody.innerHTML = `
+        <tr>
+          <td colspan="5" class="empty-state">
+            <div class="empty-state-icon">📇</div>
+            <div>No contacts found</div>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    contactTableBody.innerHTML = contacts
+      .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0))
+      .map((c, index) => `
+        <tr style="animation: fadeIn 0.5s ease ${index * 0.05}s both;">
+          <td>${c.name || '-'}</td>
+          <td><a href="mailto:${c.email || ''}" style="text-decoration:none;">${c.email || '-'}</a></td>
+          <td><a href="tel:${c.phone || ''}" style="text-decoration:none;">${c.phone || '-'}</a></td>
+          <td>${formatDate(c.createdAt)}</td>
+          <td>${getStatusBadge(!c.viewed)}</td>
+        </tr>
+      `)
+      .join("");
+
+  } catch (err) {
+    console.error('Error loading contacts:', err);
+    contactTableBody.innerHTML = `
+      <tr>
+        <td colspan="5" class="error">
+          ❌ Error loading contacts: ${err.message}
+        </td>
+      </tr>
+    `;
+  }
 }
 
 // Fetch and display applications
@@ -54,12 +103,9 @@ async function loadApplications() {
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 
     const applications = await res.json();
-    if (!Array.isArray(applications)) throw new Error('Invalid data format received');
-
-    // Update stats
     totalApplicationsEl.textContent = applications.length;
 
-    if (applications.length === 0) {
+    if (!Array.isArray(applications) || applications.length === 0) {
       applicationTableBody.innerHTML = `
         <tr>
           <td colspan="8" class="empty-state">
@@ -75,10 +121,9 @@ async function loadApplications() {
     applicationTableBody.innerHTML = applications
       .sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0))
       .map((a, index) => {
-        // Status badge click handler
         const statusBadgeId = `status-${index}`;
         return `
-          <tr style="animation: fadeIn 0.5s ease ${index * 0.1}s both;">
+          <tr style="animation: fadeIn 0.5s ease ${index * 0.05}s both;">
             <td style="font-weight: 600;">${a.name || '-'}</td>
             <td><a href="mailto:${a.email || ''}" style="color: #FF6B6B; text-decoration: none;">${a.email || '-'}</a></td>
             <td><a href="tel:${a.phone || ''}" style="color: #4a5568; text-decoration: none;">${a.phone || '-'}</a></td>
@@ -101,7 +146,7 @@ async function loadApplications() {
       })
       .join("");
 
-    // Add click handlers for status badges to mark as viewed
+    // Add click handlers for status badges
     applications.forEach((app, index) => {
       const badge = document.getElementById(`status-${index}`);
       if (badge && !app.viewed) {
@@ -123,8 +168,7 @@ async function loadApplications() {
     applicationTableBody.innerHTML = `
       <tr>
         <td colspan="8" class="error">
-          <div>❌ Error loading applications</div>
-          <small>${err.message}</small>
+          ❌ Error loading applications: ${err.message}
         </td>
       </tr>
     `;
@@ -137,61 +181,14 @@ function refreshData() {
   loadApplications();
 }
 
-// Add some CSS animations
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .refresh-btn:active {
-    transform: translateY(0);
-  }
-  
-  table tr {
-    transition: background-color 0.3s ease;
-  }
-  
-  .loading {
-    position: relative;
-  }
-  
-  .loading::after {
-    content: '';
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border: 2px solid #e2e8f0;
-    border-radius: 50%;
-    border-top-color: #FF6B6B;
-    animation: spin 1s ease-in-out infinite;
-    margin-left: 10px;
-  }
-  
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-`;
-document.head.appendChild(style);
-
 // Auto-refresh every 30 seconds
 setInterval(refreshData, 30000);
 
 // Load data on page load
 window.addEventListener("load", () => {
-  loadContacts();
-  loadApplications();
-  
-  // Add some initial stats animation
+  refreshData();
+
+  // Initial stats animation
   setTimeout(() => {
     document.querySelectorAll('.stat-number').forEach((el, index) => {
       el.style.animation = `fadeIn 0.6s ease ${index * 0.2}s both`;
@@ -199,7 +196,7 @@ window.addEventListener("load", () => {
   }, 500);
 });
 
-// Add error handling for network issues
+// Network events
 window.addEventListener('online', () => {
   console.log('Connection restored, refreshing data...');
   refreshData();
@@ -208,3 +205,28 @@ window.addEventListener('online', () => {
 window.addEventListener('offline', () => {
   console.log('Connection lost');
 });
+
+// CSS animations
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  .status-badge.status-new { background-color: #FF6B6B; color: #fff; padding: 2px 6px; border-radius: 4px; }
+  .status-badge.status-old { background-color: #ccc; color: #000; padding: 2px 6px; border-radius: 4px; }
+  .loading::after {
+    content: '';
+    display: inline-block;
+    width: 20px; height: 20px;
+    border: 2px solid #e2e8f0;
+    border-radius: 50%;
+    border-top-color: #FF6B6B;
+    animation: spin 1s ease-in-out infinite;
+    margin-left: 10px;
+  }
+`;
+document.head.appendChild(style);
