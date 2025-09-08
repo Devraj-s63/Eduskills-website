@@ -13,7 +13,7 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "https://dynamic-peony-d14543.netlify.app/",
+    origin: "https://dynamic-peony-d14543.netlify.app",
   })
 );
 app.use(express.json());
