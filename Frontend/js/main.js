@@ -19,96 +19,120 @@ const modalClose = document.getElementById("modalClose");
 
 // Updated course data with modern design
 const courses = [
-  { 
-    id: 1, 
-    title: "Web Development Bootcamp", 
-    duration: "3 Months", 
-    fees: "$299", 
-    category: "IT", 
-    description: "Master HTML, CSS, JavaScript, React, and Node.js. Build real-world projects and launch your web development career.",
+  {
+    id: 1,
+    title: "Web Development Bootcamp",
+    duration: "3 Months",
+    fees: "$299",
+    category: "IT",
+    description:
+      "Master HTML, CSS, JavaScript, React, and Node.js. Build real-world projects and launch your web development career.",
     instructor: "Sarah Johnson",
     rating: "4.8",
     reviews: "124",
-    gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+    gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+    image:
+      "https://www.webdevelopmentinstitute.com/media/uploads/course/Web-Expert-with-PHP.webp",
   },
-  { 
-    id: 2, 
-    title: "Digital Marketing Mastery", 
-    duration: "2 Months", 
-    fees: "$199", 
-    category: "Marketing", 
-    description: "Learn SEO, Social Media Marketing, Google Ads, Content Strategy, and Analytics to grow any business online.",
+  {
+    id: 2,
+    title: "Digital Marketing Mastery",
+    duration: "2 Months",
+    fees: "$199",
+    category: "Marketing",
+    description:
+      "Learn SEO, Social Media Marketing, Google Ads, Content Strategy, and Analytics to grow any business online.",
     instructor: "Michael Chen",
     rating: "4.9",
     reviews: "89",
-    gradient: "linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%)"
+    gradient: "linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%)",
+    image:
+      "https://imarticus.org/blog/wp-content/uploads/2023/10/career-in-digital-marketing-course-1536x1196.jpg",
   },
-  { 
-    id: 3, 
-    title: "Data Science Fundamentals", 
-    duration: "4 Months", 
-    fees: "$399", 
-    category: "Data Science", 
-    description: "Python, Machine Learning, Data Analysis, and Visualization. Transform data into actionable insights.",
+  {
+    id: 3,
+    title: "Data Science Fundamentals",
+    duration: "4 Months",
+    fees: "$399",
+    category: "Data Science",
+    description:
+      "Python, Machine Learning, Data Analysis, and Visualization. Transform data into actionable insights.",
     instructor: "Dr. Emily Rodriguez",
     rating: "4.7",
     reviews: "156",
-    gradient: "linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%)"
+    gradient: "linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%)",
+    image:
+      "https://media.geeksforgeeks.org/wp-content/cdn-uploads/20201201224231/Best-Courses-to-Learn-Data-Science.png",
   },
-  { 
-    id: 4, 
-    title: "UI/UX Design Principles", 
-    duration: "2.5 Months", 
-    fees: "$249", 
-    category: "Design", 
-    description: "Design thinking, user research, wireframing, prototyping, and creating beautiful, functional interfaces.",
+  {
+    id: 4,
+    title: "UI/UX Design Principles",
+    duration: "2.5 Months",
+    fees: "$249",
+    category: "Design",
+    description:
+      "Design thinking, user research, wireframing, prototyping, and creating beautiful, functional interfaces.",
     instructor: "Alex Thompson",
     rating: "4.8",
     reviews: "201",
-    gradient: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)"
+    gradient: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSA1RLizjcg-H2P56AADOj3aQJzJ-WsDWjAHA&s",
   },
-  { 
-    id: 5, 
-    title: "Python Programming Basics", 
-    duration: "2 Months", 
-    fees: "$179", 
-    category: "Programming", 
-    description: "Learn Python from scratch. Programming fundamentals, data structures, and building practical applications.",
+  {
+    id: 5,
+    title: "Python Programming Basics",
+    duration: "2 Months",
+    fees: "$179",
+    category: "Programming",
+    description:
+      "Learn Python from scratch. Programming fundamentals, data structures, and building practical applications.",
     instructor: "James Wilson",
     rating: "4.6",
     reviews: "178",
-    gradient: "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)"
+    gradient: "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)",
+    image:
+      "https://tech-gyan.in/wp-content/uploads/2021/01/Python-Programming.jpg",
   },
-  { 
-    id: 6, 
-    title: "Business Analytics", 
-    duration: "3 Months", 
-    fees: "$329", 
-    category: "Business", 
-    description: "Excel, SQL, Tableau, and business intelligence. Make data-driven decisions and optimize business performance.",
+  {
+    id: 6,
+    title: "Business Analytics",
+    duration: "3 Months",
+    fees: "$329",
+    category: "Business",
+    description:
+      "Excel, SQL, Tableau, and business intelligence. Make data-driven decisions and optimize business performance.",
     instructor: "Lisa Park",
     rating: "4.7",
     reviews: "92",
-    gradient: "linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)"
-  }
+    gradient: "linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)",
+    image:
+      "https://media.licdn.com/dms/image/v2/D5612AQGoDrwSaqRwsA/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1703688264769?e=2147483647&v=beta&t=K9hCDQGolee6YWaA_RCVN1NoQTT3jfyw9G-Aw0SFP2o",
+  },
 ];
 
 // Testimonials data
 const testimonials = [
-  { 
-    name: "Sarah Martinez", 
+  {
+    name: "Sarah Martinez",
     text: "EduSkills institue completely transformed my career. The Web Development course gave me the skills I needed to land my dream job at a tech startup. The instructors are amazing!",
-    role: "Frontend Developer at TechCorp"
+    role: "Frontend Developer at TechCorp",
+    image:
+      "https://toppng.com/uploads/preview/stock-person-png-stock-photo-man-11563049686zqeb9zmqjd.png",
   },
-  { 
-    name: "David Chen", 
-    text: "The flexibility to learn at my own pace while working full-time was perfect. The Data Science course content is top-notch and very practical.",
-    role: "Data Analyst at DataFlow"
+  {
+    name: "David Chen",
+    text: "The flexibility to learn at my own pace while working full-time was perfect. The Data Science course content is top-notch and very practical. I highly recommend it!",
+    role: "Data Analyst at DataFlow",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8LhGlio7GZxz8xbK4m1X_1L-JlhSVUPk4PehbisC_stTfCMUTvallnftzrYXREOdFiP8&usqp=CAU",
   },
-  { 
-    name: "Emily Johnson", 
-    text: "I went from zero design experience to landing a UX role in just 6 months. The community support and mentorship made all the difference.",
-    role: "UX Designer at DesignLab"
+  {
+    name: "Emily Johnson",
+    text: "I went from zero design experience to landing a UX role in just 6 months. The community support and mentorship made all the difference. I couldn't have done it without EduSkills!",
+    role: "UX Designer at DesignLab",
+    image:
+      "https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDI0LTEyL3Jhd3BpeGVsb2ZmaWNlMTBfYWR1bHRfaW5kaWFuX2xhdWdoaW5nX2FuZF9oYXZpbmdfZnVuX2luZGlhbl9idV8yNTNkNzMyYy03M2FiLTRlMDEtYTkwYy0zYjE1MGE2OTEzNWVfMS5wbmc.png",
   },
 ];
 
@@ -124,12 +148,12 @@ hamburger.addEventListener("click", () => {
 function router() {
   const hash = location.hash || "#/";
   Object.values(pages).forEach((page) => page.classList.add("hidden"));
-  
+
   // Update active nav link
-  document.querySelectorAll('[data-nav]').forEach(link => {
-    link.classList.remove('active');
-    if (link.getAttribute('href') === hash) {
-      link.classList.add('active');
+  document.querySelectorAll("[data-nav]").forEach((link) => {
+    link.classList.remove("active");
+    if (link.getAttribute("href") === hash) {
+      link.classList.add("active");
     }
   });
 
@@ -203,9 +227,12 @@ function renderHome() {
         </div>
         
         <div class="course-list">
-          ${courses.slice(0, 3).map(c => `
+          ${courses
+      .slice(0, 3)
+      .map(
+        (c) => `
             <div class="course-card">
-              <div class="course-image" style="background: ${c.gradient};">
+              <div class="course-image" style="background-image: url('${c.image}');">
                 <div class="play-button">▶</div>
               </div>
               <div class="course-content">
@@ -220,7 +247,9 @@ function renderHome() {
                 <button onclick="showCourse(${c.id})" style="width: 100%; margin-top: 16px; background: linear-gradient(135deg, #FFE66D, #FF6B6B); border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer;">Learn More</button>
               </div>
             </div>
-          `).join('')}
+          `
+      )
+      .join("")}
         </div>
       </div>
     </section>
@@ -234,20 +263,26 @@ function renderHome() {
         </div>
         
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px;">
-          ${testimonials.map(t => `
+          ${testimonials
+      .map(
+        (t) => `
             <div style="background: white; padding: 32px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1);">
               <div style="font-size: 16px; line-height: 1.6; margin-bottom: 24px; color: #4a5568;">
                 "${t.text}"
               </div>
               <div style="display: flex; align-items: center; gap: 16px;">
-                <div style="width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #FFE66D, #FF6B6B);"></div>
+                <div style="width: 50px; height: 50px; border-radius: 50%; background-image:url(${t.image}); background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat;"></div>
                 <div>
                   <h4 style="font-weight: 600; color: #1a1a1a; margin-bottom: 4px;">${t.name}</h4>
                   <p style="font-size: 14px; color: #64748b;">${t.role}</p>
                 </div>
               </div>
             </div>
-          `).join('')}
+          `
+      )
+      .join("")}
         </div>
       </div>
     </section>
@@ -287,9 +322,10 @@ function renderCourses() {
   function displayCourses(cat) {
     courseList.innerHTML = courses
       .filter((c) => cat === "All" || c.category === cat)
-      .map(c => `
+      .map(
+        (c) => `
         <div class="course-card">
-          <div class="course-image" style="background: ${c.gradient};">
+          <div class="course-image" style="background-image: url('${c.image}');">
             <div class="play-button">▶</div>
           </div>
           <div class="course-content">
@@ -308,7 +344,9 @@ function renderCourses() {
             </div>
           </div>
         </div>
-      `).join("");
+      `
+      )
+      .join("");
   }
 
   filter.addEventListener("change", () => displayCourses(filter.value));
@@ -443,25 +481,34 @@ function renderContact() {
     </div>
   `;
 
-  document.getElementById("contactForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const formData = Object.fromEntries(new FormData(e.target).entries());
+  document
+    .getElementById("contactForm")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = Object.fromEntries(new FormData(e.target).entries());
 
-    try {
-      const res = await fetch("https://eduskills-website-1.onrender.com/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      try {
+        const res = await fetch(
+          "https://eduskills-website-1.onrender.com/api/contact",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData),
+          }
+        );
 
-      const data = await res.json();
-      alert(data.msg || "Thank you for your message! We'll get back to you soon.");
-      e.target.reset();
-    } catch (err) {
-      alert("There was an error sending your message. Please try again later.");
-      console.error(err);
-    }
-  });
+        const data = await res.json();
+        alert(
+          data.msg || "Thank you for your message! We'll get back to you soon."
+        );
+        e.target.reset();
+      } catch (err) {
+        alert(
+          "There was an error sending your message. Please try again later."
+        );
+        console.error(err);
+      }
+    });
 }
 
 // Render Apply
@@ -485,7 +532,11 @@ function renderApply() {
                 <input type="tel" name="phone" placeholder="Phone Number" required />
                 <select name="course" required>
                   <option value="">Select Course</option>
-                  ${courses.map((c) => `<option value="${c.title}">${c.title}</option>`).join("")}
+                  ${courses
+      .map(
+        (c) => `<option value="${c.title}">${c.title}</option>`
+      )
+      .join("")}
                 </select>
               </div>
               <textarea name="education" placeholder="Education Details (e.g., Bachelor's in Computer Science, 2020)" required rows="4"></textarea>
@@ -527,16 +578,24 @@ function renderApply() {
     const formData = new FormData(e.target);
 
     try {
-      const res = await fetch("https://eduskills-website-1.onrender.com/api/apply", {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch(
+        "https://eduskills-website-1.onrender.com/api/apply",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       const data = await res.json();
-      alert(data.msg || "Application submitted successfully! We'll contact you within 24 hours.");
+      alert(
+        data.msg ||
+        "Application submitted successfully! We'll contact you within 24 hours."
+      );
       e.target.reset();
     } catch (err) {
-      alert("There was an error submitting your application. Please try again.");
+      alert(
+        "There was an error submitting your application. Please try again."
+      );
       console.error(err);
     }
   });
@@ -583,38 +642,42 @@ modal.addEventListener("click", (e) => {
 });
 
 // Smooth scrolling for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  anchor.addEventListener("click", function (e) {
     e.preventDefault();
-    const hash = this.getAttribute('href');
+    const hash = this.getAttribute("href");
     window.location.hash = hash;
   });
 });
 
 // Add scroll effect to header
-window.addEventListener('scroll', function() {
-  const header = document.querySelector('header');
+window.addEventListener("scroll", function () {
+  const header = document.querySelector("header");
   if (window.scrollY > 100) {
-    header.style.background = 'rgba(255, 255, 255, 0.95)';
-    header.style.backdropFilter = 'blur(10px)';
+    header.style.background = "rgba(255, 255, 255, 0.95)";
+    header.style.backdropFilter = "blur(10px)";
   } else {
-    header.style.background = '#fff';
-    header.style.backdropFilter = 'none';
+    header.style.background = "#fff";
+    header.style.backdropFilter = "none";
   }
 });
 
 // Newsletter subscription
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", function () {
   setTimeout(() => {
-    const subscribeBtn = document.querySelector('footer button');
+    const subscribeBtn = document.querySelector("footer button");
     if (subscribeBtn) {
-      subscribeBtn.addEventListener('click', function() {
-        const email = document.querySelector('footer input[type="email"]').value;
+      subscribeBtn.addEventListener("click", function () {
+        const email = document.querySelector(
+          'footer input[type="email"]'
+        ).value;
         if (email) {
-          alert('Thank you for subscribing! You\'ll receive updates about new courses and offers.');
-          document.querySelector('footer input[type="email"]').value = '';
+          alert(
+            "Thank you for subscribing! You'll receive updates about new courses and offers."
+          );
+          document.querySelector('footer input[type="email"]').value = "";
         } else {
-          alert('Please enter a valid email address.');
+          alert("Please enter a valid email address.");
         }
       });
     }
