@@ -50,7 +50,7 @@ async function loadContacts() {
   try {
     contactTableBody.innerHTML = '<tr><td colspan="5" class="loading">Loading contacts...</td></tr>';
 
-    const res = await fetch(`${BASE_URL}/api/contacts`);
+    const res = await fetch(`${BASE_URL}/api/contact`);
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 
     const contacts = await res.json();
@@ -99,7 +99,7 @@ async function loadApplications() {
   try {
     applicationTableBody.innerHTML = '<tr><td colspan="8" class="loading">Loading applications...</td></tr>';
 
-    const res = await fetch(`${BASE_URL}/api/test-applications`);
+    const res = await fetch(`${BASE_URL}/api/apply`);
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 
     const applications = await res.json();
