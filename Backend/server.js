@@ -16,6 +16,8 @@ app.use(
     origin: "https://spontaneous-puffpuff-25ce7d.netlify.app",
   })
 );
+app.use(cors());
+
 app.use(express.json());
 app.use("/uploads", express.static("uploads")); // serve resume files
 
